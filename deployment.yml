@@ -8,16 +8,16 @@ spec:
   selector:
     matchLabels:
       app: ngnix
-  template:
-      metadata:
-      labels:
+template:
+    metadata:
+    labels:
         app: ngnix
-      spec:
-        containers:
+    spec:
+      containers:
         - name: cont1
           image: chandrika11499/k8project2:app-image
           ports:
-          -containerPort: 80
+          - containerPort: 80
       
       // configmap integration
           envFrom:
