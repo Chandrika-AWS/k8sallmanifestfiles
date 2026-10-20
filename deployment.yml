@@ -1,4 +1,4 @@
----
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -8,22 +8,23 @@ spec:
   selector:
     matchLabels:
       app: ngnix
-template:
+  template:
     metadata:
-    labels:
+      labels:
         app: ngnix
     spec:
       containers:
         - name: cont1
           image: chandrika11499/k8project2:app-image
           ports:
-          - containerPort: 80
-      
-      // configmap integration
-         envFrom:
-         configMapRef:
-         - name: bankapp-config
-          
+            - containerPort: 80
+
+          # ConfigMap integration
+          envFrom:
+            - configMapRef:
+                name: bankapp-config
+
+          # Resource requests and limits
           resources:
             requests:
               cpu: "100m"
@@ -32,18 +33,18 @@ template:
               cpu: "200m"
               memory: "256Mi"
 
-      // probes integration
-          
+          # Liveness probe
           livenessProbe:
             httpGet:
               path: /
               port: 80
-              initialDelaySeconds: 30
-              periodSeconds: 5
-          
+            initialDelaySeconds: 30
+            periodSeconds: 5
+
+          # Readiness probe
           readinessProbe:
-             httpGet:
+            httpGet:
               path: /
               port: 80
-              initialDelaySeconds: 10
-              periodSeconds: 5
+            initialDelaySeconds: 10
+            periodSeconds: 5
