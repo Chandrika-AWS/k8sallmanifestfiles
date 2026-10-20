@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mysqldb
+  name: mysql
 spec:
   serviceName: "mysqldb"
   replicas: 1
@@ -22,7 +22,7 @@ spec:
 
           # Secret integration
           envFrom:
-            - secretRef:
+            - secretMapRef:
                 name: mysecrets
 
           # Resource requests and limits
