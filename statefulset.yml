@@ -1,26 +1,31 @@
----
+
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mysqldb
-  spec:
+spec:
+  serviceName: "mysql"
   replicas: 1
   selector:
     matchLabels:
       app: database
   template:
-      metadata:
+    metadata:
       labels:
         app: database
-      spec:
-        containers:
+    spec:
+      containers:
         - name: db-container
           image: chandrika11499/k8project2:db-image
           ports:
-          - containerPort: 3306
+            - containerPort: 3306
+
+          # Secret integration
           envFrom:
-          - secretMapRef:
-            name: mysecrets
+            - secretRef:
+                name: mysecrets
+
+          # Resource requests and limits
           resources:
             requests:
               cpu: "100m"
@@ -28,6 +33,8 @@ metadata:
             limits:
               cpu: "200m"
               memory: "256Mi"
+
+          # Persistent storage mount
           volumeMounts:
-          - name: pvc-1
-            mountPath: /var/lib/mysql
+            - name: pvc-1
+              mountPath: /var/lib/mysql
