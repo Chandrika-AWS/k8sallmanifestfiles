@@ -20,9 +20,9 @@ template:
           - containerPort: 80
       
       // configmap integration
-          envFrom:
-          - configMapRef:
-            name: bankapp-config
+         envFrom:
+         configMapRef:
+         - name: bankapp-config
           
           resources:
             requests:
