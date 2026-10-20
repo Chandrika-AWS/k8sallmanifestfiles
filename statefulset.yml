@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mysql
+  name: mysqldb
 spec:
   serviceName: mysqldb
   replicas: 1
@@ -22,7 +22,7 @@ spec:
 
           # Secret integration
           envFrom:
-            - secretMapRef:
+            - secretRef:
                 name: mysecrets
 
           # Resource requests and limits
@@ -38,3 +38,7 @@ spec:
           volumeMounts:
             - name: pvc-1
               mountPath: /var/lib/mysql
+      volumes:
+        - name: pvc-1
+          persistentVolumeClaim:
+            claimName: pvc-1
