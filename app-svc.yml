@@ -5,7 +5,7 @@ metadata:
    name: bankapp-service
 spec:
   type: ClusterIP
-   selector:
+selector:
     app: ngnix
   ports:
     - port : 80
