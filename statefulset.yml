@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysqldb
+  spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: database
+  template:
+      metadata:
+      labels:
+        app: database
+      spec:
+        containers:
+        - name: db-container
+          image: chandrika11499/k8project2:db-image
+          ports:
+          - containerPort: 3306
+          envFrom:
+          - secretMapRef:
+            name: mysecrets
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
+          volumeMounts:
+          - name: pvc-1
+            mountPath: /var/lib/mysql
