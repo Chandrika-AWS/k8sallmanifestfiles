@@ -18,13 +18,9 @@ spec:
           image: chandrika11499/k8project2:app-image
           ports:
             - containerPort: 80
-
-          # ConfigMap integration
           envFrom:
             - configMapRef:
                 name: bankapp-config
-
-          # Resource requests and limits
           resources:
             requests:
               cpu: "100m"
@@ -32,16 +28,12 @@ spec:
             limits:
               cpu: "200m"
               memory: "256Mi"
-
-          # Liveness probe
           livenessProbe:
             httpGet:
               path: /
               port: 80
             initialDelaySeconds: 30
             periodSeconds: 5
-
-          # Readiness probe
           readinessProbe:
             httpGet:
               path: /
