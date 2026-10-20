@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapplication
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ngnix
+  template:
+      metadata:
+      labels:
+        app: ngnix
+      spec:
+        containers:
+        - name: cont1
+          image: chandrika11499/k8project2:app-image
+          ports:
+          -containerPort: 80
+      
+      // configmap integration
+          envFrom:
+          - configMapRef:
+            name: bankapp-config
+          
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
+
+      // probes integration
+          
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+              initialDelaySeconds: 30
+              periodSeconds: 5
+          
+          readinessProbe:
+             httpGet:
+              path: /
+              port: 80
+              initialDelaySeconds: 10
+              periodSeconds: 5
