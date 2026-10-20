@@ -10,17 +10,17 @@ spec:
 
   selector:
     matchLabels:
-      app: app-database
+      app: database
 
   template:
     metadata:
       labels:
-        app: app-database
+        app: database
 
     spec:
       containers:
         - name: dbcont
-          image: shaikmustafa/phpapp:dbimage
+          image: chandrika11499/k8project2:db-image
 
           ports:
             - containerPort: 3306
