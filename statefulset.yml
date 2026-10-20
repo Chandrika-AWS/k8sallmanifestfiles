@@ -1,31 +1,35 @@
-
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mysqldb
+  name: mysql
+
 spec:
   serviceName: mysqldb
+
   replicas: 1
+
   selector:
     matchLabels:
-      app: database
+      app: app-database
+
   template:
     metadata:
       labels:
-        app: database
+        app: app-database
+
     spec:
       containers:
-        - name: db-container
-          image: chandrika11499/k8project2:db-image
+        - name: dbcont
+          image: shaikmustafa/phpapp:dbimage
+
           ports:
             - containerPort: 3306
+              name: mysql
 
-          # Secret integration
           envFrom:
             - secretRef:
-                name: mysecrets
+                name: bankapp-db-secret
 
-          # Resource requests and limits
           resources:
             requests:
               cpu: "100m"
@@ -34,11 +38,20 @@ spec:
               cpu: "200m"
               memory: "256Mi"
 
-          # Persistent storage mount
           volumeMounts:
-            - name: pvc-1
-              mountPath: /var/lib/mysql
-      volumes:
-        - name: pvc-1
-          persistentVolumeClaim:
-            claimName: pvc-1
+            - name: mysql-data
+              mountPath: /usr/share/nginx/html/
+
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-data
+
+      spec:
+        accessModes:
+          - ReadWriteOnce
+
+        storageClassName: gp2
+
+        resources:
+          requests:
+            storage: 2Gi
