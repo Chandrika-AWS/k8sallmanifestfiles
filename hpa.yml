@@ -1,7 +1,7 @@
----
+
 apiVersion: autoscaling/v2
-kind: HorizontalPodAutoScaler
-metadata: 
+kind: HorizontalPodAutoscaler
+metadata:
   name: bankapp-hpa
 spec:
   scaleTargetRef:
@@ -10,10 +10,9 @@ spec:
     name: myapplication
   minReplicas: 3
   maxReplicas: 7
-
   metrics:
-   - type : Resource
-     resource:
+    - type: Resource
+      resource:
         name: cpu
         target:
           type: Utilization
