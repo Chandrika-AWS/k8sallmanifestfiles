@@ -28,7 +28,7 @@ spec:
 
           envFrom:
             - secretRef:
-                name: bankapp-db-secret
+                name: mysecrets
 
           resources:
             requests:
